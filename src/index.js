@@ -12,7 +12,7 @@ const app=express()
 app.use(express.json())
 app.use(userRauter)
 app.use(taskRauter)
-const host = '0.0.0.0';
-app.listen(process.env.PORT, host,function(){
+
+app.listen((process.env.PORT || 5000),function(){
     console.log("Express server listening on port %d in %s mode", this.address().port, app.settings.env);
   });
