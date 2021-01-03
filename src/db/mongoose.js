@@ -1,6 +1,6 @@
+require('dotenv').config({ path: './config/test.env' })
 const mongoose =require('mongoose');
 const validator=require('validator');
-
 mongoose.connect(process.env.MONGOOSEURL,{
     useNewUrlParser:true,
     useUnifiedTopology: true,

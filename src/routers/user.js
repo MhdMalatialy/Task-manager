@@ -11,7 +11,7 @@ router.post('/users/login',async (req,res) => {
         const token = await user.generateAutoToken()
         user.tokens = user.tokens.concat({token})
         await user.save()
-        res.status(201).send({user,token})
+        res.status(200).send({user,token})
     }
     catch (e){
         res.status(401).send(e)
@@ -33,7 +33,7 @@ router.post('/users',async (req,res)=>{
     }})
 router.get('/users/me', auth,async(req,res)=> {
 
-        res.status(201).send(req.user)
+        res.status(200).send(req.user)
 })
 // 
 router.post('/users/logout',auth, async (req,res) =>{
@@ -79,7 +79,7 @@ router.delete('/users/me', auth, async ( req, res) => {
     try{
        await req.user.remove()
        sendMail(req.user.email ,req.user.name ,'Good bye😢','I hope to have you back soon')
-        res.status(201).send(req.user)
+        res.status(200).send(req.user)
     }
     catch(e){
         res.status(500).send()
@@ -99,7 +99,7 @@ router.delete('/users/me', auth, async ( req, res) => {
 //     }
 // })
 const upload = multer({
-    limits:{fileSize:1000000},
+    limits:{fileSize:10000000},
     fileFilter (req, file, cb){
         if (!file.originalname.match(/\.(jpg|png|jpeg)$/)){
             return cb(new Error('that`s not image'))
@@ -107,7 +107,7 @@ const upload = multer({
         cb(undefined,true)
     }
 })
-router.post ('/user/me/avatar', auth, upload.single('avatar'),  async (req,res) => {
+router.post ('/users/me/avatar', auth, upload.single('avatar'),  async (req,res) => {
     const buffer = await sharp(req.file.buffer).resize({width:300,height:300}).png().toBuffer()
     req.user.avatar = buffer
     await req.user.save()

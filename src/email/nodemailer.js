@@ -1,6 +1,8 @@
 const nodemailer = require("nodemailer");
 async function main(email,name,subject,body) {
-
+if (email.match(/(@test.com||@example.com)$/)) {
+  return console.log(email)
+}
   let transporter = nodemailer.createTransport({
     host: "smtp.gmail.com",
     port: 587,
